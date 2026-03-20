@@ -1,0 +1,11 @@
+FROM fixmystreet/fixmystreet:stable
+
+COPY docker/render-general-yml.pl /opt/render-general-yml.pl
+COPY conf/general.yml-example /opt/general.yml-example
+
+RUN chmod +x /opt/render-general-yml.pl
+
+# Template + output paths used by docker-compose renderer service.
+ENV FMS_GENERAL_YML_TEMPLATE=/opt/general.yml-example
+ENV FMS_GENERAL_YML_OUT=/out/general.yml
+

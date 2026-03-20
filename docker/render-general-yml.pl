@@ -1,9 +1,10 @@
 #!/usr/bin/env perl
 use strict;
 use warnings;
+use File::Path qw(make_path);
 
-my $template_path = 'conf/general.yml-example';
-my $output_path   = 'conf/general.yml.deployed';
+my $template_path = $ENV{FMS_GENERAL_YML_TEMPLATE} // 'conf/general.yml-example';
+my $output_path   = $ENV{FMS_GENERAL_YML_OUT} // 'conf/general.yml.deployed';
 
 -f $template_path or die "Missing template file: $template_path\n";
 
@@ -95,8 +96,14 @@ print "Rendered $output_path from $template_path\n";
 sub _req {
     my ($var) = @_;
     if (!defined $ENV{$var}) {
-        die "Missing required environment variable: $var (required for rendering general.yml.deployed)\n";
+        die "Missing required environment variable: $var (required for rendering general.yml)\n";
     }
     return $ENV{$var};
+}
+
+my $out_dir = $output_path;
+$out_dir =~ s{/[^/]+$}{};
+if ($out_dir ne '' && !-d $out_dir) {
+    make_path($out_dir) or die "Unable to create output directory: $out_dir\n";
 }
 
