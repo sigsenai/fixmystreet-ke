@@ -3,3 +3,4 @@
 !cpanfile*
 !vendor
 !conf/packages.docker
+!conf/general.yml-example
