@@ -42,6 +42,9 @@ _Inline/
 *.pyc
 docker-compose.override.yml
 
+# Root environment file (Coolify secrets/config)
+/.env
+
 # Optional Docker config
 docker/.env
 docker/ssl.crt
