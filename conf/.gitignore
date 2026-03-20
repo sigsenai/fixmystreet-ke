@@ -5,3 +5,4 @@
 /httpd.conf.deployed
 /crontab
 /crontab.deployed
+.env

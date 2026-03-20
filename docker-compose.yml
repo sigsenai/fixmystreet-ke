@@ -1,10 +1,20 @@
 services:
+  config:
+    # Render `conf/general.yml.deployed` from `conf/general.yml-example` + root `.env`.
+    # FixMyStreet does not expand `${VAR}` itself, so we generate a concrete file.
+    image: perl:5.38-slim
+    working_dir: /workspace
+    volumes:
+      - ./:/workspace
+    command: perl ./docker/render-general-yml.pl
+    env_file:
+      - .env
   nginx:
     image: nginx:1.27.2
     depends_on:
       - fixmystreet
     ports:
-      - "8000:80"
+      - "${HTTP_PORT}:80"
     volumes:
       - ./conf/nginx.conf-docker:/etc/nginx/conf.d/default.conf
     networks:
@@ -15,6 +25,8 @@ services:
     image: fixmystreet/fixmystreet:stable
     tty: true
     depends_on:
+      config:
+        condition: service_completed_successfully
       postgres:
         condition: service_healthy
       memcached:
@@ -22,7 +34,7 @@ services:
     cgroup: host
     stop_signal: SIGRTMIN+3
     volumes:
-      - ./conf/general.yml-docker:/var/www/fixmystreet/fixmystreet/conf/general.yml
+      - ./conf/general.yml.deployed:/var/www/fixmystreet/fixmystreet/conf/general.yml
       - /sys/fs/cgroup:/sys/fs/cgroup:rw
       - type: tmpfs
         target: /run
@@ -33,14 +45,14 @@ services:
         tmpfs:
           size: "104857600"
     environment:
-      POSTGRES_PASSWORD: 'password'
-      FMS_DB_HOST: 'postgres.svc'
-      FMS_DB_PASS: 'fms'
-      FMS_DB_NAME: 'fixmystreet'
-      FMS_DB_USER: 'fms'
-      FMS_ROOT: '/var/www/fixmystreet/fixmystreet'
-      SUPERUSER_EMAIL: 'superuser@example.org'
-      SUPERUSER_PASSWORD: '5up3r53cr3t'
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      FMS_DB_HOST: "${FMS_DB_HOST}"
+      FMS_DB_PASS: "${FMS_DB_PASS}"
+      FMS_DB_NAME: "${FMS_DB_NAME}"
+      FMS_DB_USER: "${FMS_DB_USER}"
+      FMS_ROOT: "${FMS_ROOT}"
+      SUPERUSER_EMAIL: "${SUPERUSER_EMAIL}"
+      SUPERUSER_PASSWORD: "${SUPERUSER_PASSWORD}"
     networks:
       default:
         aliases:
@@ -55,7 +67,7 @@ services:
     volumes:
       - fixmystreet-pgdata:/var/lib/postgresql/data/pgdata
     environment:
-      POSTGRES_PASSWORD: 'password'
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
       PGDATA: '/var/lib/postgresql/data/pgdata'
     networks:
       default:
