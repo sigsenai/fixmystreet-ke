@@ -39,7 +39,12 @@ services:
       ALLOWED_COBRANDS: "${ALLOWED_COBRANDS:-[ 'default' ]}"
     volumes:
       - fms-config:/out
-    command: sh -c 'cp -a /var/www/fixmystreet/fixmystreet/conf/. /out/ && perl /opt/render-general-yml.pl'
+    command: sh -c 'cp -a /var/www/fixmystreet/fixmystreet/conf/. /out/ && perl /opt/render-general-yml.pl && tail -f /dev/null'
+    healthcheck:
+      test: ["CMD-SHELL", "test -s /out/general.yml"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
   nginx:
     image: nginx:1.27.2
     depends_on:
@@ -57,7 +62,7 @@ services:
     tty: true
     depends_on:
       config:
-        condition: service_completed_successfully
+        condition: service_healthy
       postgres:
         condition: service_healthy
       memcached:
