@@ -4,3 +4,4 @@
 !vendor
 !conf/packages.docker
 !conf/general.yml-example
+!conf/nginx.conf-docker
