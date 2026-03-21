@@ -1,0 +1,24 @@
+[% IF location_error_pc_lookup %]
+
+    <div id="search-help" class="search-help">
+        <h2 class="search-help__header" role="alert">
+            [% location_error | safe %]
+        </h2>
+
+        <div class="search-help__tips">
+
+            <div class="search-help__tips__category">
+                <h3>[% loc('Searching by street name?') %]</h3>
+                <ul>
+                    <li>[% loc('<strong>One at a time!</strong> Multiple street names in a single search can confuse us.') %]</li>
+                    <li>[% loc('If you’re <strong>not sure on the spelling</strong>, try another nearby street you <em>are</em> sure about, then trace your way back on our map.') %]</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+[% ELSE %]
+
+    <p class="form-error">[% location_error | safe %]</p>
+
+[% END %]

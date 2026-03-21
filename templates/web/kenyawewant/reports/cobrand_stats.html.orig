@@ -1,0 +1,6 @@
+[% UNLESS c.req.params.show_wards %]
+<div class="full-width area-reports-dashboard-cta">
+    <strong>[% loc('Statistics for council staff') %]</strong>
+    <p>[% loc('Access detailed statistics on reports and performance in your area – for free. Only available to council staff.') %] <a href="[% body_url %]/summary">[% loc('Log in here.') %]</a></p>
+</div>
+[% END %]

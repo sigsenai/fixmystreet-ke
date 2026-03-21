@@ -1,0 +1,31 @@
+Subject: Summary of [%
+    IF unconfirmed_reports.size; 'unconfirmed';
+    ELSE; 'stuck';
+    END
+%] reports for [% body.name %]
+
+[% overview %]
+
+[% IF stuck_reports.size %][% FOR report IN stuck_reports %]
+
+------------------------------------------------------------
+
+[% report.category %] report [% report.admin_url(cobrand) %] has failed to send [% report.send_fail_count %] times.
+
+[% report.extra.property_address %]; all reports there: [% cobrand.admin_base_url %]/reports?search=[% report.extra.property_address | uri %]
+
+The last failure was at [% report.send_fail_timestamp %] with error:
+
+[% report.send_fail_reason %]
+[% END %][% END %]
+
+[% IF unconfirmed_reports.size %][% FOR report IN unconfirmed_reports %]
+
+------------------------------------------------------------
+
+[% report.category %] report [% report.admin_url(cobrand) %] is unconfirmed.
+
+[% report.extra.property_address %]; all reports there: [% cobrand.admin_base_url %]/reports?search=[% report.extra.property_address | uri %]
+
+It was created at [% report.created %].
+[% END %][% END %]

@@ -1,0 +1,16 @@
+[%~ BLOCK category_option ~%]
+[% IF cat.is_disabled AND NOT cobrand.staff_can_assign_reports_to_disabled_categories %]
+    [% SET disable = 1 %]
+[% END %]
+<option value="[% cat.category | html %]"[% ' selected' IF problem.category == cat.category %][% ' disabled' IF disable %]>[% cat.category_display | html %][% ' (' _ loc('disabled')  _ ')' IF disable %]</option>
+[%~ END ~%]
+
+<select class="form-control" name="category" id="category">
+  [% SET category_safe = mark_safe(problem.category) ~%]
+  [% IF NOT problem.category OR NOT categories_hash.$category_safe %]
+    <optgroup label="[% loc('Existing category') %]">
+        <option selected value="[% problem.category | html %]">[% (problem.category_display OR '-') | html %]</option>
+    </optgroup>
+  [% END %]
+  [%~ INCLUDE 'report/new/_category_select.html' ~%]
+</select>

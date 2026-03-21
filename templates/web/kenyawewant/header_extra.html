@@ -1,0 +1,13 @@
+[% IF NOT bodyclass.match('mappage') %]
+<link rel="prefetch" href="[% version('/vendor/OpenLayers.Projection.OrdnanceSurvey.js') %]">
+[% END %]
+
+[% IF bodyclass.match('frontpage') %]
+<link rel="prefetch" href="[% version('/cobrands/kenyawewant/js.js') %]">
+[% END %]
+
+[% IF c.req.uri.host == 'osm.kenyawewantcom' %]
+    <link rel="canonical" href="https://www.kenyawewant.com[% c.req.uri.path_query %]">
+[% END %]
+
+[% INCLUDE 'tracking_code.html' %]

@@ -1,0 +1,60 @@
+Subject: [%~ IF report.category == 'Small items collection' ~%]
+[%~ " Small items collection reminder - reference " _ report.id %]
+[%~ ELSE ~%]
+[%~ " Bulky waste collection reminder - reference " _ report.id %]
+[%~ END %]
+
+[%
+USE pounds = format('%.2f');
+PROCESS 'waste/_bulky_data.html';
+~%]
+
+Dear [% report.name %],
+
+[% email_summary %]
+
+[% IF days == 3 %]
+This is a reminder that your collection is in 3 days.
+[% ELSIF days == 1 %]
+This is a reminder that your collection is tomorrow.
+[% END %]
+
+Items to be collected:
+[% INCLUDE 'waste/_bulky_list.txt' %]
+
+[% INCLUDE '_council_reference.txt' problem=report %]
+
+[% report.detail %]
+
+Collection date: [% collection_date %]
+
+[% IF payment ~%]
+Total cost: £[% pounds(payment / 100) %]
+
+[% END ~%]
+
+[%~ IF staff_cancellation %]
+[%~ IF cobrand.moniker == 'peterborough' %]
+If you wish to cancel your booking, please call 01733 74 74 74.
+[% END %]
+
+[% ELSIF cobrand.moniker != 'bexley' %]
+
+If you wish to cancel your booking, please visit:
+
+    [% cobrand.base_url %]/waste/[% report.waste_property_id | uri %]/[% bulky_cancel_url %]/[% report.id %]
+
+[% IF days == 1 %]
+You may still be able to cancel your booking.
+[% END %]
+
+[% END ~%]
+
+[% IF cobrand.moniker == 'peterborough' %]
+[% INCLUDE 'waste/_bulky_extra_text.txt' %]
+[% END %]
+
+[% signature %]
+
+This email was sent automatically, from an unmonitored email account - so
+please do not reply to it.

@@ -1,0 +1,21 @@
+[% IF c.cobrand.requires_recaptcha %]
+    [% SET rc = FixMyStreet.config('RECAPTCHA') || {} %]
+
+    [% IF rc.site_key %]
+        [%# Load once per page %]
+        [% UNLESS recaptcha_loaded %]
+            [% SET recaptcha_loaded = 1 %]
+            <script async defer src="https://www.google.com/recaptcha/api.js"></script>
+        [% END %]
+
+        <div class="g-recaptcha"
+             data-sitekey="[% rc.site_key | html %]"></div>
+
+        [% IF recaptcha_error %]
+            <p class="form-error">[% recaptcha_error | html %]</p>
+        [% END %]
+    [% ELSE %]
+        [%# Optional: helps you notice misconfig quickly %]
+        <p class="form-error">reCAPTCHA is enabled but the site key is missing.</p>
+    [% END %]
+[% END %]

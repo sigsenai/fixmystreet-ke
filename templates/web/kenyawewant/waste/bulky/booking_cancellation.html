@@ -1,0 +1,26 @@
+[% PROCESS 'waste/header.html' %]
+
+<div class="govuk-panel govuk-panel--confirmation">
+  <h1 class="govuk-panel__title">
+    Your booking has been cancelled
+  </h1>
+  <div class="govuk-panel__body">
+   [% IF entitled_to_refund %]
+    <p>Your refund is on its way.</p>
+   [% END %]
+    [% IF c.cobrand.moniker != 'bromley' ~%]
+     <p>If you need to contact us about your bulky collection cancellation please use the reference:&nbsp;
+      [%~ IF cobrand.moniker == 'sutton' ~%]
+       LBS-
+      [%~ ELSIF cobrand.moniker == 'kingston' ~%]
+       RBK-
+      [%~ END ~%]
+       [%~ cancelling_booking.id %]
+     </p>
+    [% END %]
+  </div>
+</div>
+
+[% INCLUDE 'waste/_button_show_upcoming.html' %]
+
+[% INCLUDE footer.html %]

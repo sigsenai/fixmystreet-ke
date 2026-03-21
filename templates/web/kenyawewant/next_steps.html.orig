@@ -1,0 +1,24 @@
+[%# A trio of suggested steps, shown on completion pages across KWW.com %]
+
+[% DEFAULT share_url = c.cobrand.base_url %]
+[% DEFAULT twitter_comment = 'I just used @kenyawewant, you should try it!' %]
+
+<div class="next-steps">
+  <div class="next-steps__step next-steps__step--donate">
+      <h2>[% loc('Support KenyaWeWant') %]</h2>
+      <p>[% loc('We are a charity – donate today to invest in safer, more accessible communities. Even a small donation of £5 goes a long way!') %]</p>
+    <p class="next-steps__step__cta">
+      <a href="#"><img src="/cobrands/kenyawewant.com/images/next-step-don.png" alt="Donate now" width="138" height="37"></a>
+    </p>
+  </div>
+  <div class="next-steps__step next-steps__step--goodies">
+    <h2>[% loc('Free KenyaWeWant goodies for you!') %]</h2>
+    <a href="/posters">
+      <img src="/cobrands/kenyawewant.com/images/next-step-good.png" alt="" width="105" height="125" class="goodies-preview">
+    </a>
+    <p>[% loc('Perfect for civic groups, clubs, and schools.') %]</p>
+    <p class="next-steps__step__cta">
+      <a href="/posters"><img src="/cobrands/kenyawewant.com/images/next-step-down.png" alt="Download" width="120" height="37"></a>
+    </p>
+  </div>
+</div>

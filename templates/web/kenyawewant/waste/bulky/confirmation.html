@@ -1,0 +1,78 @@
+[%
+IF report.category == 'Bulky collection';
+    title = 'Bulky collection booking confirmed';
+ELSIF report.category == 'Small items collection';
+    title = 'Small items collection booking confirmed';
+ELSE;
+    title = 'Enquiry has been submitted';
+END;
+
+IF cobrand.moniker == 'sutton';
+    report_id = 'LBS-' _ report.id;
+ELSIF cobrand.moniker == 'kingston';
+    report_id = 'RBK-' _ report.id;
+ELSE;
+    report_id = report.id;
+END ~%]
+
+[% PROCESS 'waste/header.html' %]
+
+<div class="govuk-panel govuk-panel--confirmation">
+  <h1 class="govuk-panel__title">
+      [% title %]
+  </h1>
+  <div class="govuk-panel__body">
+    [% IF c.cobrand.moniker == 'brent' %]
+      <p>Subject to the terms and conditions, our contractor will collect the items you have booked on [% cobrand.bulky_nice_collection_date(report) %].
+      <p>Please ensure your items are out for collection by [% cobrand.bulky_nice_collection_time %], clearly labelled in the exact location specified.
+      [% IF report.user.email AND report.get_extra_metadata('contributed_as') != 'anonymous_user' %]
+        <p>We have emailed confirmation of your booking to [% report.user.email %].</p>
+      [% END %]
+      <p>If you need to contact us about your booking please use the reference number:&nbsp;[% report_id %]</p>
+    [% ELSE %]
+      <p>Our contractor will collect the items you have requested on [% cobrand.bulky_nice_collection_date(report) %].</p>
+
+      [% IF cobrand.moniker == 'merton' %]
+        <p>If your collection includes both upholstered and non-upholstered items (such as a sofa and a fridge), we may collect them in two stages.
+        The second collection may be up to two working days after your chosen date.</p>
+      [% END %]
+
+      [% IF cobrand.moniker == 'bexley' %]
+        <p>Collections start from [% cobrand.bulky_nice_collection_time %].&nbsp;Please have your items ready for collection at the location given and dismantled if required.</p>
+      [% ELSE %]
+        <p>Item collection starts from [% cobrand.bulky_nice_collection_time %].&nbsp;
+          [%~ IF cobrand.moniker == 'sutton' || cobrand.moniker == 'kingston' ~%]
+          Please have your items ready for collection.
+          [%~ ELSE ~%]
+          Please have your items ready and dismantled if required.
+          [%~ END ~%]
+        </p>
+      [% END %]
+
+      [% IF report.user.email AND report.get_extra_metadata('contributed_as') != 'anonymous_user' %]
+      <p>We have emailed confirmation of your booking to [% report.user.email %].</p>
+      [% END %]
+      [% IF c.cobrand.moniker == 'bromley' %]
+          <p>Your reference number is reference:&nbsp;[% report_id %]</p>
+      [% ELSE %]
+          <p>If you need to contact us about your booking please use the reference:&nbsp;[% report_id %]</p>
+      [% END %]
+      [% IF reference %]
+        <p>
+            Card payment reference: [% reference %]
+        </p>
+      [% END %]
+    [% END %]
+  </div>
+</div>
+
+<script nonce="[% csp_nonce %]">
+    // Finished a bulky flow, forget any stored bulky items
+    try {
+        sessionStorage.removeItem('bulky_items');
+    } catch(err) {}
+</script>
+
+[% INCLUDE 'waste/_button_show_upcoming.html' %]
+
+[% INCLUDE footer.html %]

@@ -1,0 +1,85 @@
+[%
+
+PROCESS waste/garden/_data.html;
+INCLUDE waste/header.html;
+
+%]
+
+<div class="govuk-panel govuk-panel--confirmation">
+    <h1 class="govuk-panel__title">
+        [% title %]
+    </h1>
+    <div class="govuk-panel__body">
+        <p>
+          [% INCLUDE 'waste/_report_ids.html' %]
+        </p>
+        [% IF c.cobrand.moniker != 'bexley' # Bexley do not want payment reference shown %]
+        [% IF reference %]
+        <p>
+          Your payment reference is [% reference %].
+        </p>
+        [% END %]
+        [% END %]
+    </div>
+</div>
+
+<p>
+[% message %]
+[% IF report.user.email && report.get_extra_metadata('contributed_as') != 'anonymous_user' %]
+We have sent a confirmation email
+[% IF reference %](you may also receive a payment receipt separately)[% END %]
+to [% report.user.email %].
+[% END %]
+</p>
+
+[%- IF c.cobrand.moniker == 'brent' -%]
+  <p>For new subscribers, and existing subscribers who did not renew before the deadline (31st March), it may take up to 14 working days for your first collection to take place.</p>
+[%- END -%]
+
+[% IF quantity %]
+<p>You have signed up for:</p>
+<ul>
+    <li>Number of bin subscriptions: [% quantity %]
+  [% IF new_bins > 0 %]
+    <li>Bins to be delivered: [% new_bins %]
+  [% ELSIF new_bins < 0 %]
+    <li>Bins to be removed: [% 0 - new_bins %]
+  [% END %]
+</ul>
+[% END %]
+
+<p>
+    [%
+    IF c.cobrand.moniker == 'bexley';
+        SET bins_word = new_bins > 1 ? 'bins' : 'bin';
+        SET bins_pronoun = new_bins > 1 ? 'them' : 'it';
+        SET arrival_time = 'We will aim to deliver your new ' _ bins_word _ ' within 10 working days. You don’t need to be at home for the delivery – we’ll leave ' _ bins_pronoun _ ' outside your address.';
+    ELSE;
+        SET arrival_time = 'Bins typically arrive within two weeks, but this may vary due to demand.';
+    END
+    %]
+  [% IF type == 'new' %]
+    Your garden waste subscription won’t show on your check your <a href="/waste/[% property_id %]">collection day lookup page</a> until your containers have been delivered.
+    [% arrival_time %]
+  [% ELSIF new_bins > 0 %]
+    [% arrival_time %]
+  [% ELSE %]
+    [%- IF c.cobrand.moniker == 'brent' -%]
+    Changes to your subscription will show up within 24 hours.
+    [%- ELSE -%]
+    Changes to your subscription will show up on your bin calendar shortly.
+    [%- END -%]
+  [% END %]
+</p>
+
+[% FOR unit IN service_data %]
+  [% NEXT UNLESS unit.service_id == 545 AND unit.next %]
+  [% next_waste = date.format(unit.next.date) | replace('~~~', unit.next.ordinal) %]
+[% END %]
+[% IF next_waste %]
+<p>Your first garden waste collection will be [% next_waste %].</p>
+[% END %]
+
+[% INCLUDE 'waste/_button_show_upcoming.html' %]
+
+[% INCLUDE footer.html %]

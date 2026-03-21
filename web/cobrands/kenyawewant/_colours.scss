@@ -1,0 +1,45 @@
+/* COLOURS */
+
+$greenwich_red: #c1002b;
+$greenwich_dark_red: orange; //#a71930;
+$greenwich_dark_grey: #4b5559;
+$greenwich_med_grey: #d9e0e4;
+$greenwich_light_grey: #eee;
+
+
+$primary: $greenwich_red;
+$primary_b: #000000;
+$primary_text: #1d1d1d;
+$contrast_text: #fff;
+
+$base_bg: #fff;
+$base_fg: #000;
+
+$nav_background_colour: #fff;
+$nav_colour: #fff;
+$nav_hover_background_colour: transparent;
+
+$link-color: #004483;
+
+$header-top-border: false;
+
+$col_big_numbers: $primary;
+
+$col_click_map: $greenwich_red;
+
+$container-max-width: 1280px;
+
+$search-help-alignment: left;
+$search-help-background: #fff3f3;
+$search-help-header-font-size-desktop: 1.25em;
+
+$dropzone-button-text: $contrast_text;
+
+$postcodeform-background: $greenwich_light_grey;
+$front-main-background-desktop: $greenwich_light_grey;
+$postcodeform-color: $primary;
+$postcodeform-color-desktop: $primary;
+$form-hint-color: $primary_text;
+$form-hint-color-desktop: $primary_text;
+
+$mobile-sticky-sidebar-button-menu-image: "menu-white";

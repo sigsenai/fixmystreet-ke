@@ -1,0 +1,92 @@
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+      <h2 class="govuk-fieldset__heading">How many bins do you need us to empty each time?</h2>
+    </legend>
+
+  <!-- [% PROCESS form override_fields=['current_bins'] %] -->
+    <hr class="fieldset-hr">
+    <div class="fieldset-container">
+      <div class="fieldset-item">
+        <label class="govuk-label" for="[% field.id %]">
+            [% field.label %]
+        </label>
+      [% IF field.get_tag('hint') %]
+        <span id="[% field.id %]-hint" class="govuk-hint">
+            [% field.get_tag('hint') %]
+        </span>
+      [% END %]
+      [% IF error %]
+        <span id="[% field.id %]-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> [% error %]
+        </span>
+      [% END %]
+      </div>
+
+    <div class="fieldset-item">
+      <input class="govuk-input[% IF error %] govuk-input--error[% END %]" id="current_bins" name="current_bins" type="number"
+      value="[% field.fif %]"
+      [%~ IF field.get_tag('number') %] pattern="[0-9]*" inputmode="numeric"[% END ~%]
+      [%~ IF field.get_tag('autofocus') %] autofocus[% END ~%]
+      [%~ IF field.disabled %] disabled[% END ~%]
+      [%~ IF field.readonly %] readonly[% END ~%]
+      [%~ IF field.get_tag('hint') OR error %]
+        aria-describedby="[% IF field.get_tag('hint') %][% field.id %]-hint [% END %][% IF error %][% field.id %]-error[% END %]"
+      [%~ END %]>
+    </div>
+
+    <div class="fieldset-item">
+      [% IF form_page == 'subscribe' %]
+          <input type="submit" class="govuk-button govuk-button--secondary govuk-!-margin-bottom-0" name="goto-existing" value="Change answer">
+      [% END %]
+    </div>
+  </div>
+
+  <!-- [% PROCESS form override_fields=['bins_wanted'] %] -->
+    <hr class="fieldset-hr">
+    <div class="fieldset-container">
+      <div class="fieldset-item">
+        <label class="govuk-label" for="[% field.id %]">
+            [% field.label %]
+        </label>
+      [% IF field.get_tag('hint') %]
+        <span id="[% field.id %]-hint" class="govuk-hint">
+            [% field.get_tag('hint') %]
+        </span>
+      [% END %]
+      [% IF error %]
+        <span id="[% field.id %]-error" class="govuk-error-message">
+            <span class="govuk-visually-hidden">Error:</span> [% error %]
+        </span>
+      [% END %]
+      </div>
+
+    <div class="fieldset-item">
+      <input class="govuk-input[% IF error %] govuk-input--error[% END %]" id="bins_wanted" name="bins_wanted" type="number"
+      value="[% field.fif %]"
+      [%~ IF field.get_tag('number') %] pattern="[0-9]*" inputmode="numeric"[% END ~%]
+      [%~ IF field.get_tag('autofocus') %] autofocus[% END ~%]
+      [%~ IF field.disabled %] disabled[% END ~%]
+      [%~ IF field.get_tag('hint') OR error %]
+        aria-describedby="[% IF field.get_tag('hint') %][% field.id %]-hint [% END %][% IF error %][% field.id %]-error[% END %]"
+      [%~ END %]>
+    </div>
+    <div class="fieldset-item">
+      [% IF form_page == 'renew';
+            SET cost = garden_costs.per_bin_renewal;
+            SET first_cost = garden_costs.per_bin_renewal_first;
+        ELSIF form_page == 'modify';
+            SET cost = garden_costs.per_bin;
+            SET first_cost = cost;
+        ELSE;
+            SET cost = garden_costs.per_bin;
+            SET first_cost = garden_costs.per_bin_first;
+        END %]
+
+        [% IF cost != first_cost %]
+          <span "cost-pa">£<span id="first-bin-cost-pa">[% tprintf('%.2f', first_cost / 100 ) %]</span> per year for the first bin.</span>
+          <br>
+          <span "cost-pa">£<span id="general-bin-cost-pa">[% tprintf('%.2f', cost / 100 ) %]</span> per bin per year for the rest.</span>
+        [% ELSE %]
+          <span class="cost-pa" id="total_per_year">£[% tprintf('%.2f', cost / 100 ) %] per bin per year</span>
+        [% END %]
+    </div>
+  </div>

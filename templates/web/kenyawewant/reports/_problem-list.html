@@ -1,0 +1,18 @@
+[% INCLUDE column
+    problems = problems.${body.id}
+%]
+
+[% BLOCK column %]
+    <h2 class="hidden-js">[% loc('Reports') %]</h2>
+    <ul class="item-list item-list--reports" data-user-name="[% c.user.name %]" data-user-email="[% c.user.email %]">
+        [% IF problems %]
+            [% FOREACH problem IN problems %]
+                [% INCLUDE 'reports/_list-entry.html' include_sentinfo = 1 include_lastupdate = 1 %]
+            [% END %]
+        [% ELSE %]
+            <li class="item-list__item item-list__item--empty">
+                <p>[% loc('There are no reports to show.') %]</p>
+            </li>
+        [% END %]
+    </ul>
+[% END %]

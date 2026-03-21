@@ -1,0 +1,11 @@
+(function(){
+    if (!document.querySelector) { return; }
+    if ( -1 !== navigator.userAgent.indexOf('Google Page Speed')) { return; }
+    if (document.cookie.indexOf('has_seen_country_message') !== -1) { return; }
+
+    /* Front page banner for other countries */
+    var request = new XMLHttpRequest();
+
+    request = null;
+
+})();

@@ -1,0 +1,56 @@
+[% IF cobrand.contact_extra_fields.0 == 'display_name' %]
+
+    [% IF contact.in_storage %]
+        [% IF c.user.is_superuser %]
+        <label for="category">[% loc('Category') %]</label>
+        <p class="form-hint" id="category-hint">
+            This cobrand uses display names. The display name is shown to users and the category name is used internally and in URLs.
+        </p>
+        <input type="text" class="form-control" id="category" name="category"
+          aria-describedby="category-hint"
+          size="30" value="[% contact.category %]"
+          [% contact.category_uneditable ? 'readonly' : 'required' %]>
+        <input type="hidden" name="current_category" value="[% current_contact.category | html %]" >
+        [% ELSE %]
+        <h1>[% contact.category | html %]</h1>
+        <input type="hidden" name="category" value="[% contact.category | html %]" >
+        [% END %]
+
+        <label for="display_name">Display name</label>
+        <p class="form-hint" id="display_name-hint">
+            A display name will be used in preference to the main category name on web pages and dropdown menus, but not in URLs.
+        </p>
+        <input type="text" class="form-control" name="extra[display_name]" id="display_name"
+            aria-describedby="display_name-hint"
+            value="[% contact.get_extra_metadata('display_name') | html %]" size="30">
+
+    [% ELSE %]
+        <p>
+          <strong>[% loc('Category') %] </strong><input type="text" class="form-control" name="category" size="30" value="[% contact.category | html %]" required>
+        </p>
+    [% END %]
+
+[% ELSE %]
+
+<div class="admin-hint">
+  <p>
+      [% loc('Choose a <strong>category</strong> name that makes sense to the public (e.g., "Pothole", "Street lighting") but is helpful
+                  to the body too. These will appear in the drop-down menu on the report-a-problem page.') %]
+      <br>
+      [% loc("If two or more bodies serve the same location, KenyaWeWant combines identical categories into a single entry in
+                  the menu. Make sure you use the same category name in the bodies if you want this to happen.") %]
+  </p>
+</div>
+
+<p>
+  <label for="category">[% loc('Category') %]</label>
+  <input type="text" class="form-control" id="category" name="category"
+    size="30" value="[% contact.category %]"
+    [% contact.category_uneditable ? 'readonly' : 'required' %]>
+</p>
+
+[% IF contact.in_storage %]
+    <input type="hidden" name="current_category" value="[% current_contact.category | html %]" >
+[% END %]
+
+[% END %]

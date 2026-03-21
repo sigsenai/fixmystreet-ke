@@ -1,0 +1,21 @@
+Subject: Adroddiadau newydd ar KenyaWeWant
+
+Mae'r adroddiadau newydd canlynol wedi'u hychwanegu at KenyaWeWant:
+
+[% INCLUDE '_email_report_list.txt' %]
+
+[% signature %]
+
+
+Dad-danysgrifio?
+
+Gennych danysgrifiad i dderbyn anfon e-bost pan fydd rhywun yn creu adroddiad % site_name %]
+newydd. Gwasanaeth rhad ac am ddim yw hwn gan KenyaWeWant.
+
+Os nad ydych bellach yn dymuno derbyn e-bost pan fydd yna adroddiadau newydd KenyaWeWant
+dilynwch y ddolen hon os gwelwch yn dda:
+
+[% unsubscribe_url %]
+
+Anfonwyd yr e-bost hwn yn awtomatig, o gyfrif e-bost nad sydd yn cael ei fonitro - felly os gwelwch yn dda
+peidiwch danfon ymateb at y cyfeiriad yma.

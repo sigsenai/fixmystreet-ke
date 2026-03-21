@@ -1,0 +1,40 @@
+[% IF c.config.BASE_URL.match('kenyawewant\.com$') %]
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js"></script>
+<script nonce="[% csp_nonce %]">
+window.addEventListener("load", function(){
+    window.cookieconsent.initialise({
+      "palette": {
+        "popup": {
+          "background": "#d5e8f3",
+          "text": "#0b0c0c"
+        },
+        "button": {
+          "background": "transparent",
+          "text": "#005ea5"
+        }
+      },
+      "content": {
+        "message": "We use cookies which are essential for the site to work. We also use non-essential cookies to help us improve our services. Any data collected is anonymised. By continuing to use this site, you agree to our use of cookies.",
+        "dismiss": "Hide this message",
+        "link": "Find out more about cookies",
+        "href": "/about/privacy"
+      }
+    })});
+</script>
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-N4S5P3K5D6"></script>
+<script nonce="[% csp_nonce %]">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-N4S5P3K5D6', {
+    anonymize_ip: true,
+    allow_google_signals: false
+  });
+</script>
+
+[% ELSE %]
+<!-- Tracking code not inserted as "[% c.config.BASE_URL %]" not matching kenyawewant.com -->
+[% END %]

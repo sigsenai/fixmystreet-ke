@@ -1,0 +1,14 @@
+[% IF problem.photo %]
+    [% photo = problem.photos.first %]
+    [% content_type = problem.get_first_image_type %]
+    <meta property="og:image" content="[% c.cobrand.base_url %][% photo.url_og %]">
+    <meta property="og:image:type" content="[% content_type %]">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+[% ELSE %]
+    [% SET og_moniker = 'kenyawewant' %]
+    <meta property="og:image" content="[% c.cobrand.base_url %]/cobrands/[% og_moniker %]/images/kww-og_image.jpg">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+[% END %]

@@ -1,0 +1,14 @@
+[% IF c.cobrand.requires_recaptcha %]
+    <script nonce="[% csp_nonce %]" src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <div class="g-recaptcha" data-sitekey="[% c.config.RECAPTCHA.site_key %]"></div>
+[% END %]
+
+
+
+--------
+
+notes
+
+If you’d rather show a normal form error instead of a hard 400, change your failure block to set a stash var and re-render:
+$c->stash->{recaptcha_error} = 'Please complete the reCAPTCHA check and try again.';
+return; # then re-display the form view

@@ -1,0 +1,21 @@
+Subject: New reports on KenyaWeWant
+
+The following new reports have been added to KenyaWeWant:
+
+[% INCLUDE '_email_report_list.txt' %]
+
+[% signature %]
+
+
+Unsubscribe?
+
+You subscribed to receive an email when someone makes a new KenyaWeWant
+report. This is a free service from KenyaWeWant.
+
+If you no longer wish to receive an email whenever there are new KenyaWeWant
+reports please follow this link:
+
+[% unsubscribe_url %]
+
+This email was sent automatically, from an unmonitored email account - so please
+do not reply to it.

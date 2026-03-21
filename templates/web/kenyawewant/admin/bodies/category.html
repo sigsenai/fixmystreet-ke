@@ -1,0 +1,59 @@
+[% body_name = body.name | html;
+   INCLUDE 'admin/header.html' title=tprintf(loc('Council contacts for %s'), body_name) -%]
+
+[% BLOCK highlightchanged_yesno %]
+[%- output = loc('No') %]
+[%- IF new.$value %][% output = loc('Yes') %][% END %]
+[%- IF old && old.$value != new.$value %]<strong>[% output %]</strong>[% ELSE %][% output %][% END %]
+[%- END %]
+
+[% BLOCK highlightchanged %]
+[%- IF old && old.$value != new.$value %]<strong>[% new.$value %]</strong>[% ELSE %][% new.$value %][% END %]
+[%- END %]
+<p>
+<em>[% updated %]</em>
+</p>
+
+[% IF NOT contact %]
+    <h2>[% loc('Add new category') %]</h2>
+[% END %]
+
+[% IF body.name == 'TfL' AND c.user.is_superuser %]
+<p class="fms-admin-warning">
+    Renaming, adding, or removing categories that can only be made on red routes requires extra steps. See
+    <a href="https://wiki.mysociety.org/wiki/Transport_for_London_(TfL)#TLRN_categories">wiki</a>.
+</p>
+[% END %]
+
+[% IF errors %]
+  <div class="fms-admin-warning">
+    [% FOR error IN errors.values %][% error %][% IF NOT loop.last %]<br>[% END %][% END %]
+  </div>
+[% END %]
+[% INCLUDE 'admin/bodies/contact-form.html' %]
+
+[% IF history %]
+<h2>[% loc('History') %]</h2>
+<table border="1">
+    <tr>
+        <th>[% loc('When edited') %]</th>
+        <th>[% loc('Email') %]</th>
+        <th>[% loc('State') %]</th>
+        <th>[% loc('Editor') %]</th>
+        <th>[% loc('Note') %]</th>
+    </tr>
+    [%- prev = '' %]
+    [%- WHILE ( contact = history.next ) %]
+    <tr>
+        <td>[% contact.whenedited.ymd _ ' ' _ contact.whenedited.hms %]</td>
+        <td>[% PROCESS highlightchanged old=prev new=contact value='email' %]</td>
+        <td>[% PROCESS highlightchanged old=prev new=contact value='state' %]</td>
+        <td>[% contact.editor | html %]</td>
+        <td>[% contact.note | html %]</td>
+    </tr>
+        [%- prev = contact %]
+    [%- END %]
+</table>
+[% END %]
+
+[% INCLUDE 'admin/footer.html' %]

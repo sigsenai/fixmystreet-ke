@@ -1,0 +1,14 @@
+<!-- user_loggedout.html -->
+
+<div id="form_sign_in">
+    [% PROCESS 'report/form/private_details.html' %]
+    <h2 class="hidden-js">[% tprintf(loc("Do you have a %s password?", "%s is the site name"), site_name) %]</h2>
+    [% PROCESS 'report/form/user_loggedout_password.html' %]
+    [% PROCESS 'report/form/user_loggedout_by_email.html' %]
+    [% IF c.cobrand.requires_recaptcha %]
+    <script nonce="[% csp_nonce %]" src="https://www.google.com/recaptcha/api.js?onload=fixmystreet.renderReportRecaptcha&amp;render=explicit" async defer></script>
+    <div id="report-recaptcha-container" data-sitekey="[% c.config.RECAPTCHA.site_key %]"></div>
+    [% END %]
+</div>
+
+<!-- /user_loggedout.html -->

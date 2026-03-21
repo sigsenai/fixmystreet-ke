@@ -1,0 +1,93 @@
+    <div id="js-not-council-road" class="hidden js-responsibility-message js-roads-bucks js-roads-centralbeds js-roads-shropshire">
+        <p>The selected road is not maintained by the council;
+        to find out who owns this land/road please contact the Land Registry at
+        <a href="https://www.gov.uk/search-property-information-land-registry">https://www.gov.uk/search-property-information-land-registry</a>.
+        </p>
+    </div>
+    <div id="js-not-council-road-other" class="hidden js-responsibility-message js-roads-bucks">
+        <p>The selected road is not maintained by the council,
+        but by a neighbouring council. Please move your pin slightly, to the
+        other side of the border.
+        </p>
+    </div>
+    <div id="js-not-a-road" class="hidden js-responsibility-message js-roads-bucks js-roads-centralbeds js-roads-shropshire js-roads-camden">
+        <p>The location you have selected doesn't appear to be on <span class="js-roads-asset" data-original="a road">a road</span>.</p>
+        <p>Please select <span class="js-roads-asset" data-original="a road">a road</span> on which to make a report.</p>
+    </div>
+
+    <div id="js-not-an-asset" class="hidden js-responsibility-message">
+        <p>Please select <span class="js-roads-asset" data-original="an item">an item</span> from the map on which to make a report.</p>
+    </div>
+    <div id="js-curo-group-restriction" class="js-responsibility-message hidden">
+        <strong>Maintained by Curo Group</strong>
+        <p>The location you have selected is maintained by Curo Group.</p>
+        <p>You can report this issue to Curo Group directly by emailing <a href="mailto:estates&#64;curo-group.co.uk">estates&#64;curo-group.co.uk</a>.</p>
+    </div>
+    <div id="js-occ-prow-bridge" class="hidden js-responsibility-message">
+        <p>
+            Please report problems on rights of way using
+            <a href="https://publicrightsofway.oxfordshire.gov.uk/web/standardmap.aspx">this page</a>.
+        </p>
+    </div>
+    <div id="js-not-council-car-park" class="hidden js-responsibility-message">
+        <p>There is no council car park in the area selected.</p>
+    </div>
+    <div id="js-camden-housing-estate-restriction" class="js-responsibility-message hidden">
+        <strong>Report a housing repair</strong>
+        <p>The location you have chosen is on a Camden housing estate and is the responsibility of housing repairs.
+        Please use <a href="https://www.camden.gov.uk/report-a-housing-repair">this link</a> to continue to the Camden housing repairs service,
+        to raise the issue directly with them.</p>
+        <p>For an expedited response please use the chat functionality available on that page.</p>
+    </div>
+    <div id="js-not-a-merton-park" class="hidden js-responsibility-message js-parks-merton">
+        <p>Please select <span class="js-roads-asset" data-original="an item">an item</span> from the map on which to make a report.</p>
+    </div>
+    <div id="js-not-a-park-morden-hall" class="hidden js-responsibility-message js-parks-merton">
+        <p>
+            Sorry, we can only accept reports for issues in parks and recreation grounds maintained by Merton Council.
+        </p>
+        <p>To report an issue at <b>Morden Hall Park</b>, please contact the <a href=https://www.nationaltrust.org.uk/morden-hall-park>National Trust</a> who own and manage it.
+        </p>
+    </div>
+    <div id="js-not-a-park-mitcham-common" class="hidden js-responsibility-message js-parks-merton">
+        <p>
+            Sorry, we can only accept reports for issues in parks and recreation grounds maintained by Merton Council.
+        </p>
+        <p>
+            To report an issue at <b>Mitcham Common</b>, please contact <a href=https://mitchamcommon.org/contact-us>Mitcham Common Conservators</a> who own and manage it.
+        </p>
+    </div>
+    <div id="js-not-a-park-wimbledon-common" class="hidden js-responsibility-message js-parks-merton">
+        <p>
+            Sorry, we can only accept reports for issues in parks and recreation grounds maintained by Merton Council.
+        </p>
+        <p>
+            To report an issue at <b>Wimbledon Common</b>, please contact <a href=https://www.wpcc.org.uk/contact-us/contact-us>Wimbledon and Putney Commons Conservators
+            </a> who own and manage it.
+        </p>
+    </div>
+    <div id="bristol-not-owned" class="hidden js-responsibility-message js-roads-bristol">
+        <strong>
+            The area selected is not maintained by Bristol City Council
+        </strong>
+        <p>
+            To enable you to find out who owns/maintains this area please contact HM Land Registry at https://www.gov.uk/search-property-information-land-registry.
+        </p>
+    </div>
+    <div id="js-lincs-parish-grass" class="hidden js-responsibility-message">
+      <p>The grass in this area is the responsibility of {{PARISH_COUNCIL}} Parish/Town Council.</p>
+      <p>Please contact them directly to report the issue.</p>
+      <p>To find your Town or Parish Council’s contact details visit <a href='https://parish.uk/find-parish-council'>https://parish.uk/find-parish-council</a></p>
+    </div>
+</div>
+<div id="js-environment-message" class="hidden">
+    [% INCLUDE 'report/new/flytipping_text.html' %]
+</div>
+<div id="js-graffiti-message" class="hidden">
+    <p>
+    [% graffiti_text = INCLUDE 'report/new/graffiti_text.html' %][% graffiti_text | add_links | html_para %]
+    </p>
+</div>
+<div id="js-abandoned-vehicles-message" class="hidden">
+    [% abandoned_vehicles_text = INCLUDE 'report/new/abandoned_vehicles_text.html' %][% abandoned_vehicles_text | add_links | html_para %]
+

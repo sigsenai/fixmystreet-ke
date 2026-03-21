@@ -1,0 +1,79 @@
+[%
+
+USE pounds = format('%.2f');
+PROCESS 'waste/_bulky_data.html';
+
+email_columns = 2;
+
+PROCESS '_email_settings.html';
+INCLUDE '_email_top.html';
+
+property_id_uri = report.waste_property_id | uri;
+cancel_url = cobrand.base_url _ '/waste/' _ property_id_uri _ '/' _ bulky_cancel_url _ '/' _ report.id;
+%]
+
+<th style="[% td_style %][% primary_column_style %]" id="primary_column">
+  [% start_padded_box | safe %]
+
+  <p style="[% p_style %]">Dear [% report.name %],</p>
+
+  <p style="[% p_style %]">[% email_summary %]</p>
+
+  <p style="[% p_style %]">
+    [% IF days == 3 %]
+    This is a reminder that your collection is in
+    <strong>3 days</strong>.
+    [% ELSIF days == 1 %]
+    This is a reminder that your collection is
+    <strong>tomorrow</strong>.
+    [% END %]
+  </p>
+
+  <p style="[% p_style %]">
+    Items to be collected:
+    [% INCLUDE 'waste/_bulky_list.html' %]
+  </p>
+
+    [% INCLUDE '_council_reference.html' problem=report %]
+
+  <p style="[% p_style %]">
+    Collection date: [% collection_date %]
+  </p>
+
+[% IF payment %]
+  <p style="[% p_style %]">
+    Total cost: £[% pounds(payment / 100) %]
+  </p>
+[% END %]
+
+<p style="[% p_style %]">
+  [%~ IF staff_cancellation %]
+    [% IF cobrand.moniker == 'peterborough' %]
+      If you wish to cancel your booking, please call 01733 74 74 74.
+    [% END %]
+  [% ELSIF cobrand.moniker != 'peterborough' AND cobrand.moniker != 'bexley' %]
+    If you wish to cancel your booking, please visit <a href="[% cancel_url %]">this link</a>.
+
+    [% IF days == 1 %]
+      You may still be able to cancel your booking.
+    [% END %]
+  [% END %]
+</p>
+
+[% IF cobrand.moniker == 'peterborough' %]
+   [% INCLUDE 'waste/_bulky_extra_text.html' %]
+[% END %]
+
+  <p style="[% p_style %]">
+    [% INCLUDE 'waste/signature.html' %]
+  </p>
+
+  [% end_padded_box | safe %]
+</th>
+
+[% WRAPPER '_email_sidebar.html' object = report %]
+    <h2 style="[% h2_style %]">[% report.title | html %]</h2>
+    [% report.detail | html_para_email(secondary_p_style) %]
+[% END %]
+
+[% INCLUDE '_email_bottom.html' %]

@@ -1,0 +1,22 @@
+Subject: New reports on KenyaWeWant
+
+The following KenyaWeWant reports have been made within the area
+you specified:
+
+[% INCLUDE '_email_report_list.txt' %]
+
+[% signature %]
+
+
+Unsubscribe?
+
+You asked us to send you an email when someone makes a new KenyaWeWant
+report within your chosen area. This is a free service from KenyaWeWant.
+
+If you no longer wish to receive an email whenever there are new reports within
+this area, please follow this link:
+
+[% unsubscribe_url %]
+
+This email was sent automatically, from an unmonitored email account - so please
+do not reply to it.

@@ -1,0 +1,27 @@
+[%
+    PROCESS "report/photo-js.html" IF problem.photo;
+    PROCESS "maps/${map.type}.html" admin = 1;
+    SET bodyclass = 'mappage with-notes';
+    INCLUDE 'admin/header.html'
+        title = tprintf(loc('Editing report %d'), problem.id );
+    PROCESS 'admin/report_blocks.html'
+-%]
+
+[% map_html | safe %]
+</div>
+
+<div id="map_sidebar">
+
+      &larr; <a href="[% c.uri_for_action( 'admin/reports/index' ) %]">[% loc('All reports') %]</a>
+
+<h1>[% tprintf(loc('Editing report %d'), problem.id ) %]</h1>
+
+[% IF problem.cobrand_data == 'waste' %]
+    [% PROCESS 'admin/reports/_edit_waste.html' %]
+[% ELSE %]
+    [% PROCESS 'admin/reports/_edit_main.html' %]
+[% END %]
+
+</div>
+
+[% INCLUDE 'admin/footer.html' %]

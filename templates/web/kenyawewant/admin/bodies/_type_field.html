@@ -1,0 +1,9 @@
+[% SET type = contact.get_extra_metadata('type') %]
+<fieldset>
+    <legend>Category type</legend>
+    <div class="form-check form-check--inline">
+        <input type="radio" name="type" id="type-standard" aria-describedby="type-standard-hint" value="standard"[% ' checked' IF type == '' %]>
+        <label for="type-standard">Standard</label>
+        <p class="form-hint" id="type-standard-hint">A normal KenyaWeWant category</p>
+    </div>
+</fieldset>

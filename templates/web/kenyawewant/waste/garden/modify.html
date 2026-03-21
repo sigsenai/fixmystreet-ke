@@ -1,0 +1,58 @@
+[% PROCESS 'waste/header.html' %]
+[% PROCESS 'govuk/fields.html' %]
+[% PROCESS title title=form.title %]
+[% PROCESS errors %]
+
+<dl class="waste__address">
+    <dt class="waste__address__title">Collection address</dt>
+    <dd class="waste__address__property">[% property.address %]</dd>
+</dl>
+
+<form method="post" id="modify">
+    [% INCLUDE waste/garden/_bin_quantities.html form_page='modify' %]
+  <hr class="fieldset-hr">
+  <div class="cost-pa__total js-bin-costs"
+    data-payment_method="[% current_payment_method %]"
+    data-first_bin_discount="[% garden_costs.first_bin_discount_absolute_amount %]"
+    data-per_bin_cost="[% garden_costs.per_bin %]"
+    data-per_bin_first_cost="[% garden_costs.per_bin_first %]"
+    data-per_new_bin_first_cost="[% garden_costs.per_new_bin_first %]"
+    data-per_new_bin_cost="[% garden_costs.per_new_bin %]"
+    data-pro_rata_bin_cost="[% garden_costs.per_pro_rata_bin %]"
+  >
+    <span class="cost-pa__total-costs">
+    Total per year, from [% display_end_date.strftime('%e %B %Y') %]: £<span id="cost_per_year">[% tprintf('%.2f', cost_pa) %]</span>
+    </span>
+  [% IF garden_costs.per_new_bin %]
+    <span class="cost-pa__total-costs">
+        Admin fee: £<span id="cost_now_admin">[% tprintf( '%.2f', cost_now_admin ) %]</span>
+    </span>
+  [% END %]
+    <span class="cost-pa__total-costs">
+        Total to pay now (<span id="new_bin_count">[% new_bin_count %]</span> new <span id="new_bin_text">[% nget( 'bin', 'bins', new_bin_count) %]</span>): £<span id="pro_rata_cost">[% tprintf('%.2f', pro_rata) %]</span>
+    </span>
+  </div>
+
+  [% IF c.cobrand.moniker == 'bexley' && current_payment_method == 'direct_debit' %]
+    <div class="fieldset-container">
+      <div class="fieldset-item">
+        <label>
+        The total cost of an additional bin will be added to your existing Garden Waste Service Direct Debit Mandate and will be debited from your account.
+        </label>
+      </div>
+    </div>
+  [% END %]
+
+    [% IF form.current_page.fields.grep('name').size %]
+      [% IF staff_payments_allowed %]
+      [% PROCESS form override_fields=['name', 'email', 'phone'] %]
+      [% ELSE %]
+      [% PROCESS form override_fields=['name'] %]
+      [% END %]
+    [% END %]
+    [% PROCESS form override_fields=['saved_data', 'token', 'process', 'unique_id'] %]
+    [% PROCESS form override_fields=['continue_review'] %]
+
+</form>
+
+[% INCLUDE footer.html %]

@@ -1,0 +1,42 @@
+[% IF children.size %]
+[% SET show_wards_hidden_class = c.req.params.show_wards ? 'hidden' : 'js-ward-single' %]
+[% SET show_wards_shown_class = c.req.params.show_wards ? '' : 'js-ward-multi hidden' %]
+<section id="council_wards" class="js-sub-area-list[% UNLESS c.req.params.show_wards %] hidden-js[% END %]">
+<h2>[% ward_text %]</h2>
+    <p class="[% show_wards_hidden_class %]">[% ward_link_text %]</p>
+    <p class="[% show_wards_shown_class %]">[% ward_link_instruction %]</p>
+    <p class="[% show_wards_hidden_class %]"><a href="?show_wards=1" class="js-ward-select-multiple">[% ward_link_multiple %]</a></p>
+    <form method="get" action="">
+    <section class="full-width">
+    <ul class="item-list item-list--wards govuk-checkboxes govuk-checkboxes--small">
+      [% FOR child IN children.values.sort('name') %]
+        <li class="govuk-checkboxes__item">
+          <input class="[% show_wards_shown_class %] govuk-checkboxes__input" id="[% child.name | lower | replace(' ', '-') %]" type="checkbox" name="ward" value="[% child.name | html %]">
+          <label class="[% show_wards_shown_class %] govuk-label govuk-checkboxes__label" for="[% child.name | lower | replace(' ', '-') %]">
+            [% child.name %]
+          </label>
+          <a class="[% show_wards_hidden_class %]" href="[% child.url %]">[% child.name %]</a>
+        </li>
+      [% END %]
+    </ul>
+    </section>
+
+    <p>
+      [% IF c.cobrand.moniker == 'oxfordshire' %]
+        <input type="hidden" name="type" value="CED">
+      [% END %]
+      [% IF c.cobrand.moniker == 'shropshire' %]
+        <input type="hidden" name="type" value="UTE">
+      [% END %]
+      <input class="btn [% show_wards_shown_class %]" type="submit" value="[% ward_link_button | html %]" />
+    </p>
+    </form>
+</section>
+  [% TRY %]
+    [% INCLUDE 'reports/_other_districts-list.html' %]
+  [% CATCH file %]
+  [% END %]
+[% END %]
+
+
+

@@ -1,0 +1,47 @@
+[% IF c.cobrand.moniker == 'hounslow' %]
+  [% SET can_display_external_id = problem.external_id AND c.user_exists AND c.user.belongs_to_body(problem.bodies_str) %]
+[% ELSE %]
+  [% SET can_display_external_id = problem.can_display_external_id %]
+[% END %]
+[% SET duration_clause = problem.duration_string %]
+<p class="council_sent_info">
+    [% duration_clause %][% IF duration_clause %]. [% END %]
+    <strong>
+    [%- IF can_display_external_id %]
+        [%- IF c.cobrand.moniker == 'hounslow' %]
+            [%- tprintf('Reference:&nbsp;%s', problem.external_id) %].
+        [%- ELSIF c.cobrand.moniker == 'isleofwight' %]
+            [%- tprintf('Enquiry ref:&nbsp;%s', problem.external_id) %].
+        [%- ELSIF problem.to_body_named('Surrey County') %]
+            Council ref: [% problem.external_id.replace("Zendesk_", "") %].
+        [%- ELSE %]
+            [%- tprintf(loc('Council ref:&nbsp;%s'), problem.external_id) %].
+        [%- END %]
+    [%- ELSE -%]
+        [%- IF c.cobrand.moniker == 'bathnes' OR c.cobrand.moniker == 'cheshireeast' OR c.cobrand.moniker == 'peterborough' %]
+            [%- tprintf(loc('Council ref:&nbsp;%s'), problem.id) %].
+        [%- ELSIF c.cobrand.moniker == 'bexley' %]
+            [%- tprintf('Report ref:&nbsp;%s', problem.id) %].
+        [%- ELSIF c.cobrand.moniker == 'tfl' %]
+            [%- tprintf('TfL ref:&nbsp;FMS%s', problem.id) %].
+        [%- ELSIF c.cobrand.moniker == 'northamptonshire' OR c.cobrand.moniker == 'westnorthants' OR c.cobrand.moniker == 'northnorthants'%]
+            [%- IF NOT c.cobrand.is_defect(problem) %]
+                [% tprintf(loc('ref:&nbsp;%s'), problem.id) %].
+            [%- END -%]
+        [%- ELSIF c.cobrand.moniker == 'gloucestershire' %]
+            [%- IF c.cobrand.is_defect(problem) %]
+                [%- tprintf('Reference:&nbsp;%s', problem.external_id) %].
+            [%- ELSE %]
+                [%- tprintf(loc('KenyaWeWant ref:&nbsp;%s'), problem.id) %].
+            [%- END -%]
+        [%- ELSIF c.cobrand.moniker == 'nottinghamshirepolice' %]
+        [%- ELSIF c.cobrand.moniker == 'surrey' %]
+            [% # don't display anything - problem.can_display_external_id not set so external id will not show either %]
+        [%- ELSIF problem.cobrand_data == 'waste' %]
+            [%- tprintf('WasteWorks ref:&nbsp;%s', problem.id) %].
+        [%- ELSE %]
+            [%- tprintf(loc('KenyaWeWant ref:&nbsp;%s'), problem.id) %].
+        [%- END %]
+    [%- END -%]
+    </strong>
+</p>

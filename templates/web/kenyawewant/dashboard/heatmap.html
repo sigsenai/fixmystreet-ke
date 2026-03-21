@@ -1,0 +1,82 @@
+[%
+    map_js.push(
+        '/vendor/HeatmapLayer.js',
+        '/cobrands/kenyawewant/density-map.js',
+    );
+    PROCESS "maps/${map.type}.html";
+    SET bodyclass = 'mappage';
+    INCLUDE 'header.html',
+        title = tprintf(loc('%s - Summary reports'), body.name)
+%]
+
+[% map_html | safe %]
+
+</div>
+<div id="map_sidebar">
+    <div id="side">
+
+    <h1 id="reports_heading">
+        [% body.name %]
+    </h1>
+
+<form method="get" action="">
+
+<input type="hidden" id="body" name="body" value="[% body.id %]">
+
+<div class="full-width">
+
+<div id="report-list-filters" class="report-list-filters-wrapper govuk-fieldset-wrapper govuk-small">
+
+[% INCLUDE "reports/_list-filters.html" heatmap=1 %]
+
+<div class="filter-group">
+    <div class="report-list-filters">
+    <label for="start_date">[% loc('From') %]</label> <input type="date" id="start_date" name="start_date" value="[% start_date | html %]">
+    </div>
+    <div class="report-list-filters">
+    <label for="end_date">[% loc('To') %]</label> <input type="date" id="end_date" name="end_date" value="[% end_date | html %]">
+    </div>
+
+    <div class="report-list-filters">
+        <label for="wards">
+        [% IF parish_children %]In areas[% ELSE %][% loc('In wards') %][% END %]
+        </label>
+<select class="form-control js-multiple" multiple id="wards" name="wards">
+  [% IF parish_children %]
+    <optgroup label="Wards">
+  [% END %]
+  [% FOR child IN children.values.sort('name') %]
+  [% SET aid = child.id %]
+  <option value="[% aid %]"[% ' selected' IF ward_hash.$aid %]>[% child.name %]</option>
+  [% END %]
+  [% IF parish_children %]
+    </optgroup>
+    <optgroup label="Town/parish council">
+      [% FOR child IN parish_children.values.sort('name') %]
+      [% SET aid = child.id %]
+      <option value="[% aid %]"[% ' selected' IF ward_hash.$aid %]>[% child.name %]</option>
+      [% END %]
+  [% END %]
+</select>
+    </div>
+</div>
+
+<p class="segmented-control segmented-control--radio">
+    <input type="radio" name="heatmap" id="heatmap_yes" value="Yes" checked>
+    <label class="btn" for="heatmap_yes">[% loc('Heatmap') %]</label>
+    <input type="radio" name="heatmap" id="heatmap_no" value="No">
+    <label class="btn" for="heatmap_no">[% loc('Pin map') %]</label>
+</p>
+
+</div>
+
+</div>
+
+</form>
+
+<div id="js-reports-list">
+</div>
+
+    </div>
+</div>
+[% INCLUDE 'footer.html' %]

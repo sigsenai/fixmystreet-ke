@@ -1,0 +1,112 @@
+[%
+
+USE date;
+USE Math;
+
+scripts = [];
+
+scripts.push(
+    version("/js/translation_strings.js"), # Specially treated in the function
+);
+
+IF bodyclass.match('frontpage');
+    scripts.push(
+        version('/vendor/idb-keyval-iife.min.js'),
+        version('/vendor/dropzone.min.js'),
+        version('/js/offline_draft.js'),
+        version('/js/front.js'),
+        version('/js/geolocation.js'),
+    );
+ELSIF bodyclass.match('alertpage');
+    scripts.push(
+        version('/js/geolocation.js'),
+        version('/js/validation_rules.js'),
+        version('/vendor/jquery-3.7.1.min.js'),
+        version('/vendor/jquery.validate.min.js'),
+        version('/cobrands/kenyawewant/fixmystreet.js'),
+    );
+ELSIF bodyclass.match('offlinepage');
+    scripts.push(
+        version('/js/geolocation.js'),
+        version('/vendor/jquery-3.7.1.min.js'),
+        version('/vendor/idb-keyval-iife.min.js'),
+        version('/vendor/dropzone.min.js'),
+        version('/cobrands/kenyawewant/offline_report.js'),
+    );
+ELSE;
+    scripts.push(
+        version('/js/validation_rules.js'),
+        version('/vendor/jquery-3.7.1.min.js'),
+        version('/vendor/jquery.multi-select.min.js'),
+        version('/vendor/jquery.validate.min.js'),
+        version('/vendor/jquery.validate.additional-methods.require-from-group.min.js'),
+        version('/vendor/idb-keyval-iife.min.js'),
+        version('/js/offline_draft.js'),
+        version('/cobrands/kenyawewant/offline_report.js'),
+        version('/cobrands/kenyawewant/fixmystreet.js'),
+    );
+END;
+
+FOR script IN extra_js;
+    scripts.push(script);
+END;
+
+IF c.user_exists AND (c.user.from_body OR c.user.is_superuser);
+    scripts.push(
+        version('/js/geolocation.js'),
+        version('/vendor/jquery-3.7.1.min.js'),
+        version('/cobrands/kenyawewant/staff.js')
+    );
+    IF bodyclass.match('mappage') AND c.cobrand.suggest_duplicates AND NOT login_success AND NOT oauth_need_email;
+        scripts.push(
+            version('/js/duplicates.js')
+        );
+    END;
+    IF c.user.has_body_permission_to('planned_reports');
+        scripts.push(
+            version('/vendor/idb-keyval-iife.min.js'),
+            version('/cobrands/kenyawewant/offline.js'),
+        );
+    END;
+END;
+
+IF bodyclass.match('mappage');
+    FOR script IN map_js.merge(c.cobrand.call_hook('map_js_extra'));
+        IF script.match('^/');
+            scripts.push(version(script));
+        ELSE;
+            scripts.push(script);
+        END;
+    END;
+    scripts.push(
+        version('/cobrands/kenyawewant/map.js'),
+        version('/vendor/dropzone.min.js'),
+        version('/vendor/fancybox/jquery.fancybox-1.3.4.pack.js'),
+        version('/vendor/uFuzzy.iife.min.js'),
+        version('/js/fancybox.js'),
+    );
+ELSE;
+    scripts.push(
+        version('/cobrands/kenyawewant/prefetch-polyfill.js'),
+    );
+END;
+
+IF bodyclass.match('govuk');
+    scripts.push(
+        version('/vendor/dropzone.min.js'),
+    );
+END;
+
+IF admin;
+    scripts.push(
+        version('/cobrands/kenyawewant/admin.js'),
+        version('/vendor/html5sortable.min.js'),
+    );
+END;
+
+TRY;
+    PROCESS 'footer_extra_js.html';
+CATCH file;
+END;
+
+~%]

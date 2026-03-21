@@ -1,0 +1,58 @@
+[% PROCESS 'waste/header.html' %]
+[% PROCESS 'govuk/fields.html' %]
+[% PROCESS title title=form.title %]
+[% PROCESS errors %]
+
+[% PROCESS 'waste/garden/subscribe_details_bin_desc.html' %]
+
+<form method="post" id="subscribe_details">
+  <div style="margin-top: 1.5em;">
+    [% INCLUDE waste/garden/_bin_quantities.html form_page='subscribe' %]
+    <hr class="fieldset-hr">
+
+    <div class="cost-pa__total js-bin-costs"
+        data-first_bin_discount="[% garden_costs.first_bin_discount_absolute_amount %]"
+        data-per_bin_cost="[% garden_costs.per_bin %]"
+        data-per_bin_first_cost="[% garden_costs.per_bin_first %]"
+        data-per_new_bin_first_cost="[% garden_costs.per_new_bin_first %]"
+        data-per_new_bin_cost="[% garden_costs.per_new_bin %]"
+    >
+      <span class="cost-pa__total-costs">
+          Subscription cost: £<span id="cost_pa">[% tprintf( '%.2f', cost_pa ) %]</span>
+      </span>
+    [% IF garden_costs.per_new_bin %]
+      <span class="cost-pa__total-costs">
+          Admin fee: £<span id="cost_now_admin">[% tprintf( '%.2f', cost_now_admin ) %]</span>
+      </span>
+    [% END %]
+      <span class="cost-pa__total-costs">
+          Total to pay now: £<span id="cost_now">[% tprintf( '%.2f', cost_now ) %]</span>
+      </span>
+    </div>
+  </div>
+
+  [% PROCESS 'waste/garden/_payment_field.html' %]
+
+  [% IF property %]
+  <dl class="waste__address">
+    <dt class="waste__address__title"><h2 class="govuk-fieldset__heading">Collection address</h2></dt>
+    <dd class="waste__address__property">[% property.address %]</dd>
+  </dl>
+  [% END %]
+
+  [% PROCESS form override_fields=['name', 'email', 'phone'] %]
+
+  [% IF !(staff_payments_allowed OR c.cobrand.waste_password_hidden) %]
+  [% PROCESS form override_fields=['password'] %]
+  [% END %]
+
+  [% IF c.cobrand.garden_subscription_email_renew_reminder_opt_in %]
+  [% PROCESS form override_fields=['email_renewal_reminders'] %]
+  [% END %]
+
+
+  [% PROCESS form override_fields=['continue_review', 'saved_data', 'token', 'process', 'service_id', 'unique_id'] %]
+
+</form>
+
+[% INCLUDE footer.html %]

@@ -1,0 +1,22 @@
+[%
+scripts.push(
+    version('/js/lazyload.js'),
+);
+# Kenya doesn't need UK-specific asset layer scripts
+# These scripts require OpenLayers GML format which isn't included in Google Maps build
+# IF bodyclass.match('mappage') AND NOT bodyclass.match('accountpage');
+#     scripts.push( version('/cobrands/kenyawewant/assets.js') );
+#     scripts.push( version('/js/asset_layers.js') );
+# END;
+
+
+IF bodyclass.match('frontpage');
+    scripts.push(
+        version('/cobrands/kenyawewant/front.js'),
+    );
+ELSIF NOT bodyclass.match('alertpage');
+    scripts.push(
+        version('/cobrands/kenyawewant/js.js'),
+    );
+END;
+%]
