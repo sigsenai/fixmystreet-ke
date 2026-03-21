@@ -256,7 +256,7 @@ CHECK_HAVEIBEENPWNED: 0
 
 # Gaze is a world-wide service for population density lookups. You can leave
 # this as is.
-GAZE_URL: 'https://gaze.mysociety.org/gaze'
+GAZE_URL: ''
 
 # Memcached host
 # This can be safely left out and will default to '127.0.0.1' even if not present.
